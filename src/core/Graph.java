@@ -4,11 +4,8 @@ package core;
 import java.util.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 25/3/12
- * Time: 3:13 PM
- * To change this template use File | Settings | File Templates.
+ * Represents the Graph object. Uses Adjacency List
+ * @param <E>
  */
 
 public class Graph<E> {

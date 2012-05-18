@@ -1,11 +1,11 @@
 package core.util;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 8/5/12
- * Time: 9:31 PM
- * To change this template use File | Settings | File Templates.
+ * Simple Binary Heap with extract top, bubble up and bubble down operations
+ * Objects implementinng Comparable can be added
+ * To be used for impementing Prim's min spanning tree edge weight comparison
+ *
+ * @param <E>
  */
 public class BinaryHeap<E extends Comparable<E>> {
     int capacity = 64;

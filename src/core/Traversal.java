@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 21/4/12
- * Time: 7:43 AM
- * To change this template use File | Settings | File Templates.
+ * Base class for implementing Traversals on the Graph
+ *
+ * @param <E>
  */
 public abstract class Traversal<E> {
     protected Graph<E> g;
