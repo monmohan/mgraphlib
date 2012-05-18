@@ -1,12 +1,8 @@
 package test;
 
 /**
-* Created by IntelliJ IDEA.
-* User: monmohas
-* Date: 28/4/12
-* Time: 11:59 AM
-* To change this template use File | Settings | File Templates.
-*/
+ * Mock vertex
+ */
 class MockNode {
     String name;
 
