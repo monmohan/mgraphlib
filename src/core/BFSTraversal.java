@@ -5,11 +5,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 18/4/12
- * Time: 5:52 PM
- * To change this template use File | Settings | File Templates.
+ * Class encapsulating Breadth First Traversal
+ * Implements method to find shortest path between two nodes in linear time
+ * @param <E>
  */
 public class BFSTraversal<E> extends Traversal<E> {
     Queue<Graph.Vertex<E>> bfs = new LinkedList<Graph.Vertex<E>>();

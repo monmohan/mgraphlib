@@ -3,11 +3,9 @@ package core;
 import java.util.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 21/4/12
- * Time: 7:40 AM
- * To change this template use File | Settings | File Templates.
+ * Depth First Search Traversal
+ * Has Method for cycle detection and topological sort
+ * @param <E>
  */
 public class DFSTraversal<E> extends Traversal<E> {
     Graph<E> g = null;
