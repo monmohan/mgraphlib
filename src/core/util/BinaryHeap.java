@@ -56,14 +56,20 @@ public class BinaryHeap<E extends Comparable<E>> {
         }
     }
 
+    public E peek() {
+        return heap[0];
+    }
+
     public E extractTop() {
         E top = heap[0];
-        //move last to first
-        heap[0] = heap[lastIdx - 1];
-        lastIdx--;
-        heap[lastIdx] = null;
-        //now bubbleDown
-        bubbleDown(0);
+        if (top != null) {
+            //move last to first
+            heap[0] = heap[lastIdx - 1];
+            lastIdx--;
+            heap[lastIdx] = null;
+            //now bubbleDown
+            bubbleDown(0);
+        }
         return top;
     }
 

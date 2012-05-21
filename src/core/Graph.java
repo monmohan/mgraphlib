@@ -1,10 +1,14 @@
 package core;
 
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents the Graph object. Uses Adjacency List
+ *
  * @param <E>
  */
 
@@ -12,25 +16,34 @@ public class Graph<E> {
     protected Map<Vertex<E>, LinkedList<Vertex<E>>> graphAdjMap = new HashMap<Vertex<E>, LinkedList<Vertex<E>>>();
     boolean directed = false;
 
-    public Graph<E> insertEdge(E e1, E e2, Object edgeWeight ) {
-        Vertex<E> v1=new Vertex<E>(e1);
-        Vertex<E> v2=new Vertex<E>(e2);
-        v2.edgeWeight=edgeWeight;
+    public Graph() {
+    }
+
+    public Graph(boolean directed) {
+        this.directed = directed;
+    }
+
+    public Graph<E> insertEdge(E e1, E e2, Comparable edgeWeight) {
+        Vertex<E> v1 = new Vertex<E>(e1);
+        Vertex<E> v2 = new Vertex<E>(e2);
+        v2.edgeWeight = edgeWeight;
         insert(v1, v2);
-        if (!directed && e2!=null) {
+        if (!directed && e2 != null) {
             insert(v2, v1);
         }
         return this;
     }
-    public Graph<E> insertEdge(E e1,E e2){
-        return insertEdge(e1,e2,null);
+
+    public Graph<E> insertEdge(E e1, E e2) {
+        return insertEdge(e1, e2, null);
     }
+
     private void insert(Vertex<E> v1, Vertex<E> v2) {
         LinkedList<Vertex<E>> adjList = graphAdjMap.get(v1);
         if (adjList == null) {
             adjList = new LinkedList<Vertex<E>>();
         }
-        if (v2!=null && !adjList.contains(v2)) {
+        if (v2 != null && !adjList.contains(v2)) {
             adjList.add(v2);
             ++v1.degree;
         }
@@ -71,13 +84,12 @@ public class Graph<E> {
 
     public LinkedList<Vertex<E>> findShortestPath(E e1, E e2) {
         BFSTraversal<E> bfs = new BFSTraversal<E>(this);
-        Vertex<E> v1=new Vertex<E>(e1);
+        Vertex<E> v1 = new Vertex<E>(e1);
         bfs.traverse(v1);
         return bfs.findShortestPath(v1, new Vertex<E>(e2));
 
     }
-    
-    
+
 
     protected LinkedList<Vertex<E>> getAdjList(Vertex<E> v) {
         LinkedList<Vertex<E>> adjList = graphAdjMap.get(v);
@@ -88,18 +100,22 @@ public class Graph<E> {
         return directed;
     }
 
-    public void setDirected(boolean directed) {
-        this.directed = directed;
-    }
 
     public Set<Vertex<E>> getVertices() {
         return graphAdjMap.keySet();
     }
 
-    public static class Vertex<E> {
-        E e=null;
+    Graph<E> minSpanningTree() {
+
+
+        return null;
+    }
+
+
+    public static class Vertex<E> implements Comparable<Vertex<E>> {
+        E e = null;
         int degree = 0;
-        Object edgeWeight=null;
+        Comparable edgeWeight = null;
 
         public Vertex(E e) {
             this.e = e;
@@ -124,7 +140,16 @@ public class Graph<E> {
 
         @Override
         public String toString() {
-            return e!=null?e.toString():"";
+            return e != null ? e.toString() : "";
+        }
+
+        @Override
+        public int compareTo(Vertex<E> o) {
+            return this.edgeWeight.compareTo(o.edgeWeight);
+        }
+
+        public E unwrap() {
+            return e;
         }
     }
 
