@@ -43,7 +43,7 @@ public class Graph<E> {
         if (adjList == null) {
             adjList = new LinkedList<Vertex<E>>();
         }
-        if (v2 != null && !adjList.contains(v2)) {
+        if (v2.e != null && !adjList.contains(v2)) {
             adjList.add(v2);
             ++v1.degree;
         }

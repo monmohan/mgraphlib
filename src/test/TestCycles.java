@@ -33,12 +33,15 @@ public class TestCycles {
     public void testTopologicalSort() {
         g.depthFirstSearch();
         Stack<Graph.Vertex<MockNode>> ts = new DFSTraversal<MockNode>(g).topologicalSort();
-        assertEquals(ts.pop().unwrap(), husband);
-        assertEquals(ts.pop().unwrap(), saas);
-        assertEquals(ts.pop().unwrap(), bahu);
-        assertEquals(ts.pop().unwrap(), politician);
-        assertEquals(ts.pop().unwrap(), buero);
-        assertEquals(ts.pop().unwrap(), janta);
+
+        assertEquals(ts.get(0).unwrap(), saas);
+        assertEquals(ts.get(1).unwrap(), bahu);
+        assertEquals(ts.get(2).unwrap(), politician);
+        assertEquals(ts.get(3).unwrap(), buero);
+        assertEquals(ts.get(4).unwrap(), janta);
+        assertEquals(ts.get(5).unwrap(), husband);
+
+
     }
 
 

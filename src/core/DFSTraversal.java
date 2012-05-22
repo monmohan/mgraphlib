@@ -11,18 +11,13 @@ import java.util.Stack;
  * @param <E>
  */
 public class DFSTraversal<E> extends Traversal<E> {
+    Graph<E> g = null;
     Stack<Graph.Vertex<E>> dfs = new Stack<Graph.Vertex<E>>();
     protected boolean hasCycles = false;
-    private boolean cycleDetectOnly;
 
 
     public DFSTraversal(Graph<E> g) {
         this.g = g;
-    }
-
-    public DFSTraversal(Graph<E> eGraph, boolean cycleDetectionOnly) {
-        super(eGraph);
-        this.cycleDetectOnly = cycleDetectionOnly;
     }
 
     public void traverse() {
