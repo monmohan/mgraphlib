@@ -1,20 +1,28 @@
 package core;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * Depth First Search Traversal
  * Has Method for cycle detection and topological sort
+ *
  * @param <E>
  */
 public class DFSTraversal<E> extends Traversal<E> {
-    Graph<E> g = null;
     Stack<Graph.Vertex<E>> dfs = new Stack<Graph.Vertex<E>>();
-    protected boolean hasCycles=false;
+    protected boolean hasCycles = false;
+    private boolean cycleDetectOnly;
 
 
     public DFSTraversal(Graph<E> g) {
         this.g = g;
+    }
+
+    public DFSTraversal(Graph<E> eGraph, boolean cycleDetectionOnly) {
+        super(eGraph);
+        this.cycleDetectOnly = cycleDetectionOnly;
     }
 
     public void traverse() {
@@ -24,14 +32,13 @@ public class DFSTraversal<E> extends Traversal<E> {
         }
 
 
-
     }
 
     private void process(Graph.Vertex<E> v) {
-       if(discovered(v) && !processed(v)){
-           hasCycles=true;
-       }
-        if(discovered(v)){
+        if (discovered(v) && !processed(v)) {
+            hasCycles = true;
+        }
+        if (discovered(v)) {
             return;
         }
         markDiscovered(v);
@@ -50,8 +57,8 @@ public class DFSTraversal<E> extends Traversal<E> {
         dfs.push(v);
     }
 
-    public Stack<Graph.Vertex<E>> topologicalSort(){
+    public Stack<Graph.Vertex<E>> topologicalSort() {
         traverse();
-       return hasCycles?null:dfs;
+        return hasCycles ? null : dfs;
     }
 }
