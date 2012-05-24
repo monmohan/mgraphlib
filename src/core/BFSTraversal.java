@@ -7,6 +7,7 @@ import java.util.Queue;
 /**
  * Class encapsulating Breadth First Traversal
  * Implements method to find shortest path between two nodes in linear time
+ *
  * @param <E>
  */
 public class BFSTraversal<E> extends Traversal<E> {

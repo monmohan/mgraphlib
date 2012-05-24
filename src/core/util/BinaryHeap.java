@@ -2,8 +2,8 @@ package core.util;
 
 /**
  * Simple Binary Heap with extract top, bubble up and bubble down operations
- * Objects implementinng Comparable can be added
- * To be used for impementing Prim's min spanning tree edge weight comparison
+ * Objects implementing Comparable can be added
+ * To be used for implementing Prim's min spanning tree edge weight comparison
  *
  * @param <E>
  */

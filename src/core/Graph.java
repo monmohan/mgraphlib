@@ -29,6 +29,7 @@ public class Graph<E> {
         v2.edgeWeight = edgeWeight;
         insert(v1, v2);
         if (!directed && e2 != null) {
+            v1.edgeWeight = edgeWeight;
             insert(v2, v1);
         }
         return this;
@@ -94,6 +95,12 @@ public class Graph<E> {
     protected LinkedList<Vertex<E>> getAdjList(Vertex<E> v) {
         LinkedList<Vertex<E>> adjList = graphAdjMap.get(v);
         return (adjList == null) ? new LinkedList<Vertex<E>>() : adjList;
+    }
+
+    public Graph<E> getMinSpanningTree() {
+        SpanningTreeGenerator<E> spg = new SpanningTreeGenerator<E>(this);
+        spg.traverse();
+        return spg.spanningTree;
     }
 
     public boolean isDirected() {

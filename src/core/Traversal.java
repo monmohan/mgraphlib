@@ -27,7 +27,7 @@ public abstract class Traversal<E> {
 
     protected boolean processed(Graph.Vertex<E> v) {
         Node n = v2NodeMap.get(v);
-        return n.isProcessed;
+        return n != null && n.isProcessed;
     }
 
     protected void visitEdge(Graph.Vertex<E> v, Graph.Vertex<E> next) {
