@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class Traversal<E> {
     protected Graph<E> g;
-    Map<Graph.Vertex<E>, Node<E>> v2NodeMap = new HashMap<Graph.Vertex<E>, Node<E>>();
+    protected Map<Graph.Vertex<E>, Node<E>> v2NodeMap = new HashMap<Graph.Vertex<E>, Node<E>>();
 
     protected Traversal() {
     }
@@ -26,7 +26,7 @@ public abstract class Traversal<E> {
     }
 
     protected boolean processed(Graph.Vertex<E> v) {
-        Node n = v2NodeMap.get(v);
+        Node<E> n = v2NodeMap.get(v);
         return n != null && n.isProcessed;
     }
 
@@ -35,20 +35,23 @@ public abstract class Traversal<E> {
     }
 
     protected void markProcessed(Graph.Vertex<E> v) {
-        Node n = v2NodeMap.get(v);
+        Node<E> n = v2NodeMap.get(v);
         n.isProcessed = true;
 
         System.out.println(v + " is processed");
     }
 
     protected boolean discovered(Graph.Vertex<E> v) {
-        Node n = v2NodeMap.get(v);
+        Node<E> n = v2NodeMap.get(v);
         return n != null && (n.isDiscovered || n.isProcessed);
     }
 
     protected void markDiscovered(Graph.Vertex<E> v) {
         // visitVertex(v);
-        v2NodeMap.put(v, new Node<E>(v, true));
+        Node<E> n = v2NodeMap.get(v);
+        n = n == null ? new Node<E>(v, true) : n;
+        n.isDiscovered = true;
+        v2NodeMap.put(v, n);
     }
 
     protected void visitVertex(Graph.Vertex<E> v) {
@@ -60,10 +63,36 @@ public abstract class Traversal<E> {
         boolean isDiscovered = false;
         boolean isProcessed = false;
         Graph.Vertex<E> parent;
+        Color color = Color.NONE;
+
+        public enum Color {
+            RED, BLACK, NONE
+        }
 
         Node(Graph.Vertex<E> vertex, boolean discovered) {
             this.vertex = vertex;
             isDiscovered = discovered;
+        }
+
+        boolean setColor(Color color) {
+            boolean wasColored = true;
+            if (this.color == Color.NONE) {
+                this.color = color;
+            } else if (this.color != color) {
+                System.out.println("Can't color vertex " + vertex + ",initial color=" + this.color
+                        + " , attempt to color=" + color);
+                wasColored = false;
+            }
+            return wasColored;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        Color getComplement() {
+            return this.color == Color.RED ? Color.BLACK :
+                    this.color == Color.NONE ? Color.NONE : Color.RED;
         }
 
     }

@@ -82,6 +82,12 @@ public class Graph<E> {
         return tr.hasCycles;
     }
 
+    public boolean isBipartite() {
+        TwoColoringTraversal<E> b = new TwoColoringTraversal<E>(this);
+        b.traverse();
+        return b.isBipartite;
+    }
+
 
     public LinkedList<Vertex<E>> findShortestPath(E e1, E e2) {
         BFSTraversal<E> bfs = new BFSTraversal<E>(this);

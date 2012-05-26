@@ -44,8 +44,10 @@ public class BFSTraversal<E> extends Traversal<E> {
         visitVertex(v);
         LinkedList<Graph.Vertex<E>> edges = g.getAdjList(v);
         for (Graph.Vertex<E> next : edges) {
-            if (!discovered(next)) {
+            if (!processed(next)/*visit each edge once*/) {
                 visitEdge(v, next);
+            }
+            if (!discovered(next)) {
                 markDiscovered(next);
                 setParent(next, v);
                 bfs.offer(next);
@@ -53,7 +55,6 @@ public class BFSTraversal<E> extends Traversal<E> {
         }
 
     }
-
 
     private void setParent(Graph.Vertex<E> v, Graph.Vertex<E> p) {
         Node n = v2NodeMap.get(v);
