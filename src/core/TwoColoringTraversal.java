@@ -37,7 +37,7 @@ public class TwoColoringTraversal<E> extends BFSTraversal<E> {
     }
 
     @Override
-    protected void visitEdge(Graph.Vertex<E> v, Graph.Vertex<E> next) {
+    public void visitEdge(Graph.Vertex<E> v, Graph.Vertex<E> next) {
         super.visitEdge(v, next);
         Node.Color color = v2NodeMap.get(v).getComplement();
         Node<E> nx = v2NodeMap.get(next);

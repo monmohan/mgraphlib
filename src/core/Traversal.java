@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * @param <E>
  */
-public abstract class Traversal<E> {
+public abstract class Traversal<E> implements ITraversalHandler<E> {
     protected Graph<E> g;
     protected Map<Graph.Vertex<E>, Node<E>> v2NodeMap = new HashMap<Graph.Vertex<E>, Node<E>>();
 
@@ -19,34 +19,38 @@ public abstract class Traversal<E> {
         this.g = graph;
     }
 
-    abstract protected void traverse();
-
-    protected void traverse(Graph.Vertex<E> startingAt) {
+    @Override
+    public void traverse(Graph.Vertex<E> startingAt) {
 
     }
 
-    protected boolean processed(Graph.Vertex<E> v) {
+    @Override
+    public boolean processed(Graph.Vertex<E> v) {
         Node<E> n = v2NodeMap.get(v);
         return n != null && n.isProcessed;
     }
 
-    protected void visitEdge(Graph.Vertex<E> v, Graph.Vertex<E> next) {
+    @Override
+    public void visitEdge(Graph.Vertex<E> v, Graph.Vertex<E> next) {
         System.out.println(" Edge = From " + v + " to " + next);
     }
 
-    protected void markProcessed(Graph.Vertex<E> v) {
+    @Override
+    public void markProcessed(Graph.Vertex<E> v) {
         Node<E> n = v2NodeMap.get(v);
         n.isProcessed = true;
 
         System.out.println(v + " is processed");
     }
 
-    protected boolean discovered(Graph.Vertex<E> v) {
+    @Override
+    public boolean discovered(Graph.Vertex<E> v) {
         Node<E> n = v2NodeMap.get(v);
         return n != null && (n.isDiscovered || n.isProcessed);
     }
 
-    protected void markDiscovered(Graph.Vertex<E> v) {
+    @Override
+    public void markDiscovered(Graph.Vertex<E> v) {
         // visitVertex(v);
         Node<E> n = v2NodeMap.get(v);
         n = n == null ? new Node<E>(v, true) : n;
@@ -54,7 +58,8 @@ public abstract class Traversal<E> {
         v2NodeMap.put(v, n);
     }
 
-    protected void visitVertex(Graph.Vertex<E> v) {
+    @Override
+    public void visitVertex(Graph.Vertex<E> v) {
         System.out.println("Visiting vertex = " + v);
     }
 

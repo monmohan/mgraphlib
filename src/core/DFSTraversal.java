@@ -47,7 +47,7 @@ public class DFSTraversal<E> extends Traversal<E> {
     }
 
     @Override
-    protected void markProcessed(Graph.Vertex<E> v) {
+    public void markProcessed(Graph.Vertex<E> v) {
         super.markProcessed(v);    //To change body of overridden methods use File | Settings | File Templates.
         dfs.push(v);
     }

@@ -17,9 +17,10 @@ public class TestMinSpanningTree {
         MockNode d = new MockNode("d");
         Graph<MockNode> g = new Graph<MockNode>();
         g.insertEdge(a, b, 1);
-        g.insertEdge(b, c, 2);
-        g.insertEdge(c, d, 105);
-        g.insertEdge(a, d, 100);
+        g.insertEdge(a, c, 100);
+        g.insertEdge(a, d, 200);
+        g.insertEdge(b, c, 10);
+        g.insertEdge(c, d, 20);
         Graph<MockNode> st = g.getMinSpanningTree();
         System.out.println("st = " + st);
 

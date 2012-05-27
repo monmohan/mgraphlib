@@ -21,7 +21,7 @@ public class SpanningTreeGenerator<E> extends Traversal<E> {
     }
 
     @Override
-    protected void traverse() {
+    public void traverse() {
         inTree.add(g.getVertices().iterator().next());
         generateTree();
 
