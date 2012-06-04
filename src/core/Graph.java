@@ -1,10 +1,7 @@
 package core;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents the Graph object. Uses Adjacency List
@@ -30,6 +27,7 @@ public class Graph<E> {
         insert(v1, v2);
         if (!directed && e2 != null) {
             v1.edgeWeight = edgeWeight;
+            v1.dup = true;
             insert(v2, v1);
         }
         return this;
@@ -98,16 +96,11 @@ public class Graph<E> {
     }
 
 
-    protected LinkedList<Vertex<E>> getAdjList(Vertex<E> v) {
+    public LinkedList<Vertex<E>> getAdjList(Vertex<E> v) {
         LinkedList<Vertex<E>> adjList = graphAdjMap.get(v);
         return (adjList == null) ? new LinkedList<Vertex<E>>() : adjList;
     }
 
-    public Graph<E> getMinSpanningTree() {
-        SpanningTreeGenerator<E> spg = new SpanningTreeGenerator<E>(this);
-        spg.traverse();
-        return spg.spanningTree;
-    }
 
     public boolean isDirected() {
         return directed;
@@ -118,17 +111,54 @@ public class Graph<E> {
         return graphAdjMap.keySet();
     }
 
-    Graph<E> minSpanningTree() {
+    /**
+     * Return all edges in the graph
+     *
+     * @return
+     */
+    Edge<E>[] getEdges() {
+        List<Edge<E>> edges = new ArrayList<Edge<E>>();
 
+        for (Map.Entry<Vertex<E>, LinkedList<Vertex<E>>> v2Edges : graphAdjMap.entrySet()) {
+            Vertex<E> v = v2Edges.getKey();
+            Edge<E> e = null;
+            for (Vertex<E> eVertex : v2Edges.getValue()) {
+                if (!eVertex.dup) {
+                    e = new Edge<E>();
+                    e.from = v;
+                    e.to = eVertex;
+                    e.edgeWeight = eVertex.edgeWeight;
+                    edges.add(e);
+                }
+            }
 
-        return null;
+        }
+        return (Edge<E>[]) edges.toArray(new Edge[edges.size()]);
+
     }
 
+    /**
+     * An Edge class, holds from and to Vertex and the edge weight
+     *
+     * @param <E>
+     */
+    public static class Edge<E> implements Comparable<Edge<E>> {
+        Vertex<E> from;
+        Vertex<E> to;
+        Comparable edgeWeight;
+
+        @Override
+        public int compareTo(Edge<E> o) {
+            return this.edgeWeight.compareTo(o.edgeWeight);
+        }
+    }
 
     public static class Vertex<E> implements Comparable<Vertex<E>> {
         E e = null;
         int degree = 0;
         Comparable edgeWeight = null;
+        boolean dup = false;//tracks repeated edges in undirected graphs when list of edges is retrieved
+
 
         public Vertex(E e) {
             this.e = e;
@@ -164,6 +194,8 @@ public class Graph<E> {
         public E unwrap() {
             return e;
         }
+
+
     }
 
 
