@@ -23,6 +23,7 @@ public class TestBinaryHeap {
     private static void testExtract(BinaryHeap<Integer> bi, String message) {
         bi.extractTop();
         System.out.println("------------" + message + "----------");
+        //TODO better assertion
         System.out.println("bi = " + bi);
     }
 }

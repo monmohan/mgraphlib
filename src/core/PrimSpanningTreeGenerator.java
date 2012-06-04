@@ -10,13 +10,12 @@ import java.util.Map;
 /**
  * @param <E>
  */
-public class SpanningTreeGenerator<E> extends Traversal<E> {
+public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<E> {
     List<Graph.Vertex<E>> inTree = new ArrayList<Graph.Vertex<E>>();
     Map<Graph.Vertex<E>, BinaryHeap<Graph.Vertex<E>>> v2EdgeMinHeap =
             new HashMap<Graph.Vertex<E>, BinaryHeap<Graph.Vertex<E>>>();
-    Graph<E> spanningTree = new Graph<E>();
 
-    public SpanningTreeGenerator(Graph<E> eGraph) {
+    public PrimSpanningTreeGenerator(Graph<E> eGraph) {
         super(eGraph);
     }
 
@@ -28,7 +27,7 @@ public class SpanningTreeGenerator<E> extends Traversal<E> {
 
     }
 
-    private void generateTree() {
+    protected void generateTree() {
         Graph.Vertex<E> vMin = null;
         Graph.Vertex<E> edgeFrom = null;
         if (inTree.size() == g.getVertices().size()) return;
@@ -46,9 +45,6 @@ public class SpanningTreeGenerator<E> extends Traversal<E> {
         generateTree();
     }
 
-    public List<Graph.Vertex<E>> getMinimumSpanningTree() {
-        return inTree;
-    }
 
     private Graph.Vertex<E> getFringeMinimum(Graph.Vertex<E> v) {
         BinaryHeap<Graph.Vertex<E>> adjListHeap = getMinHeap(v);
@@ -76,7 +72,6 @@ public class SpanningTreeGenerator<E> extends Traversal<E> {
         ;
         return h;
     }
-
 
 }
                   

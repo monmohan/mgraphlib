@@ -1,6 +1,8 @@
 package test;
 
+import core.AbstractSpanningTreeGenerator;
 import core.Graph;
+import core.PrimSpanningTreeGenerator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,8 +23,9 @@ public class TestMinSpanningTree {
         g.insertEdge(a, d, 200);
         g.insertEdge(b, c, 10);
         g.insertEdge(c, d, 20);
-        Graph<MockNode> st = g.getMinSpanningTree();
-        System.out.println("st = " + st);
+        AbstractSpanningTreeGenerator<MockNode> stg = new PrimSpanningTreeGenerator<MockNode>(g);
+        //TODO better assertion
+        System.out.println("st = " + stg.getSpanningTree());
 
 
     }

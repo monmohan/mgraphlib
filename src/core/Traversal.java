@@ -1,5 +1,7 @@
 package core;
 
+import core.util.MergeSet;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +71,7 @@ public abstract class Traversal<E> implements ITraversalHandler<E> {
         boolean isProcessed = false;
         Graph.Vertex<E> parent;
         Color color = Color.NONE;
+        MergeSet<Graph.Vertex<E>> connComp = null;
 
         public enum Color {
             RED, BLACK, NONE
