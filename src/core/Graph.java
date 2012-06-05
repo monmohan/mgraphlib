@@ -4,12 +4,18 @@ package core;
 import java.util.*;
 
 /**
- * Represents the Graph object. Uses Adjacency List
+ * Represents the Graph object.
+ * Uses Adjacency List. Internally a Graph is represented by a HashMap
+ * Key=Vertex (say V)
+ * Value= Linked List of all Vertex where there is an edge between V and this Vertex
+ * A Vertex is a wrapper around Graph of the objects being built (E)
+ * Supports both directed and undirected graphs
  *
  * @param <E>
  */
 
 public class Graph<E> {
+
     protected Map<Vertex<E>, LinkedList<Vertex<E>>> graphAdjMap = new HashMap<Vertex<E>, LinkedList<Vertex<E>>>();
     boolean directed = false;
 
