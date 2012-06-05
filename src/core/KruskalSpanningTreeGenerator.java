@@ -5,11 +5,11 @@ import core.util.MergeSet;
 import java.util.Arrays;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 3/6/12
- * Time: 11:04 PM
- * To change this template use File | Settings | File Templates.
+ * Min Spanning Tree Generator, Kruskal's Algorithm.
+ * Uses Union Find data structure @see core.util.MergeSet
+ * to check for connected components
+ *
+ * @param <E>
  */
 public class KruskalSpanningTreeGenerator<E> extends PrimSpanningTreeGenerator<E> {
     public KruskalSpanningTreeGenerator(Graph<E> eGraph) {

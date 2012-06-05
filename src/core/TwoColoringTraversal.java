@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 27/5/12
- * Time: 10:54 AM
- * To change this template use File | Settings | File Templates.
+ * A Two coloring traversal, test to check if graph is bipartite .
+ * Colors one vertex RED and all adjacent vertex Black
+ *
+ * @param <E>
  */
 public class TwoColoringTraversal<E> extends BFSTraversal<E> {
     boolean isBipartite = true;

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Min Spanning Tree Generation, Prim's implementation,
+ * uses Binary Heap to decide the fringe minimum value vertex
+ *
  * @param <E>
  */
 public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<E> {
