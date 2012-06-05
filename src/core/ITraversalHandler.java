@@ -1,11 +1,9 @@
 package core;
 
 /**
- * Created by IntelliJ IDEA.
- * User: monmohas
- * Date: 27/5/12
- * Time: 1:57 PM
- * To change this template use File | Settings | File Templates.
+ * Interface for graph traversal
+ *
+ * @param <E>
  */
 public interface ITraversalHandler<E> {
     void traverse();
