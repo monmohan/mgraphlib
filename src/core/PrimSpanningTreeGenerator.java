@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<E> {
     List<Graph.Vertex<E>> inTree = new ArrayList<Graph.Vertex<E>>();
-    Map<Graph.Vertex<E>, BinaryHeap<Graph.Vertex<E>>> v2EdgeMinHeap =
-            new HashMap<Graph.Vertex<E>, BinaryHeap<Graph.Vertex<E>>>();
+    Map<Graph.Vertex<E>, BinaryHeap<Graph.Edge<E>>> v2EdgeMinHeap =
+            new HashMap<Graph.Vertex<E>, BinaryHeap<Graph.Edge<E>>>();
 
     public PrimSpanningTreeGenerator(Graph<E> eGraph) {
         super(eGraph);
@@ -31,36 +31,48 @@ public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<
     }
 
     protected void generateTree() {
-        Graph.Vertex<E> vMin = null;
-        Graph.Vertex<E> edgeFrom = null;
+        Graph.Edge<E> edgeMin = null;
         if (inTree.size() == g.getVertices().size()) return;
         for (Graph.Vertex<E> v : inTree) {
             markDiscovered(v);
-            Graph.Vertex<E> vMin2 = getFringeMinimum(v);
-            vMin = vMin == null ? vMin2
-                    : vMin2 == null ? vMin
-                    : vMin.compareTo(vMin2) > 0 ? vMin2
-                    : vMin;
-            edgeFrom = v;
+            Graph.Edge<E> edgeMin2 = getFringeMinimum(v, true);
+            edgeMin = edgeMin == null ? edgeMin2
+                    : edgeMin2 == null ? edgeMin
+                    : edgeMin.compareTo(edgeMin2) > 0 ? edgeMin2
+                    : edgeMin;
         }
-        spanningTree.insertEdge(edgeFrom.e, vMin.e, vMin.edgeWeight);
-        markDiscovered(vMin);
-        inTree.add(vMin);
+
+        if (edgeMin == null) {
+            return;
+        }
+        updateTree(edgeMin);
         generateTree();
     }
 
+    private void updateTree(Graph.Edge<E> edgeMin) {
+        getFringeMinimum(edgeMin.from, false);
+        spanningTree.insertEdge(edgeMin.from.unwrap(), edgeMin.to.unwrap(), edgeMin.edgeWeight);
+        markDiscovered(edgeMin.to);
+        inTree.add(edgeMin.to);
+    }
 
-    private Graph.Vertex<E> getFringeMinimum(Graph.Vertex<E> v) {
-        BinaryHeap<Graph.Vertex<E>> adjListHeap = getMinHeap(v);
-        Graph.Vertex<E> top = adjListHeap.extractTop();
-        while (top != null && discovered(top)) {
-            top = adjListHeap.extractTop();
+
+    private Graph.Edge<E> getFringeMinimum(Graph.Vertex<E> v, boolean peekOnly) {
+        BinaryHeap<Graph.Edge<E>> adjListHeap = getMinHeap(v);
+        Graph.Edge<E> top = peekOnly ?
+                adjListHeap.peek()
+                : adjListHeap.extractTop();
+        while (top != null && discovered(top.to)) {
+            top = adjListHeap.extractTop(); //throw it away
+            if (peekOnly) {
+                top = adjListHeap.peek();
+            }
         }
         return top;
     }
 
-    private BinaryHeap<Graph.Vertex<E>> getMinHeap(Graph.Vertex<E> v) {
-        BinaryHeap<Graph.Vertex<E>> h = v2EdgeMinHeap.get(v);
+    private BinaryHeap<Graph.Edge<E>> getMinHeap(Graph.Vertex<E> v) {
+        BinaryHeap<Graph.Edge<E>> h = v2EdgeMinHeap.get(v);
         if (h == null) {
             h = buildHeap(v);
             v2EdgeMinHeap.put(v, h);
@@ -68,12 +80,11 @@ public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<
         return h;
     }
 
-    private BinaryHeap<Graph.Vertex<E>> buildHeap(Graph.Vertex<E> v) {
-        BinaryHeap<Graph.Vertex<E>> h = new BinaryHeap<Graph.Vertex<E>>();
-        for (Graph.Vertex<E> eVertex : g.getAdjList(v)) {
-            h.insert(eVertex);
+    private BinaryHeap<Graph.Edge<E>> buildHeap(Graph.Vertex<E> v) {
+        BinaryHeap<Graph.Edge<E>> h = new BinaryHeap<Graph.Edge<E>>();
+        for (Graph.Edge<E> edge : g.getIncidentEdges(v)) {
+            h.insert(edge);
         }
-        ;
         return h;
     }
 

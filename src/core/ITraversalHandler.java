@@ -21,4 +21,6 @@ public interface ITraversalHandler<E> {
     void markDiscovered(Graph.Vertex<E> v);
 
     void visitVertex(Graph.Vertex<E> v);
+
+    void setParent(Graph.Vertex<E> v, Graph.Vertex<E> p);
 }

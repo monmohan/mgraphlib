@@ -107,6 +107,23 @@ public class Graph<E> {
         return (adjList == null) ? new LinkedList<Vertex<E>>() : adjList;
     }
 
+    public Edge<E>[] getIncidentEdges(Vertex<E> v) {
+        Edge<E> e = null;
+        LinkedList<Graph.Vertex<E>> adjL = getAdjList(v);
+        Edge<E>[] incEdges = new Edge[adjL.size()];
+        int i = 0;
+        for (Vertex<E> to : adjL) {
+            e = new Edge<E>();
+            e.from = v;
+            e.to = to;
+            e.edgeWeight = to.edgeWeight;
+            incEdges[i++] = e;
+        }
+        return incEdges;
+
+
+    }
+
 
     public boolean isDirected() {
         return directed;

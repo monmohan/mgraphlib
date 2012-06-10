@@ -41,7 +41,6 @@ public class TestMinSpanningTreeGens {
 
     @Test
     public void testKruskal() {
-
         AbstractSpanningTreeGenerator<MockNode> stg = new KruskalSpanningTreeGenerator<MockNode>(g);
         Graph<MockNode> tr = stg.getSpanningTree();
         assertFalse(tr.getVertices().isEmpty());
@@ -56,7 +55,73 @@ public class TestMinSpanningTreeGens {
     }
 
     @Test
-    public void testPrim() {
+    public void testPrim1() {
+        //test rudimentary
+        Graph<String> g = new Graph<String>();
+        g.insertEdge("Root", "child1", 100);
+        g.insertEdge("Root", "child2", 100);
+        AbstractSpanningTreeGenerator<String> stg = new PrimSpanningTreeGenerator<String>(g);
+        Graph<String> st = stg.getSpanningTree();
+        assertTrue(st.getVertices().size() == 3);
+        for (Graph.Vertex<String> v : st.getVertices()) {
+
+            if (v.unwrap().equals("Root")) {
+                assertTrue(st.getAdjList(v).size() == 2);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child1")));
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child2")));
+            }
+            if (v.unwrap().equals("child1")) {
+                assertTrue(st.getAdjList(v).size() == 1);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("Root")));
+            }
+            if (v.unwrap().equals("child2")) {
+                assertTrue(st.getAdjList(v).size() == 1);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("Root")));
+            }
+
+        }
+        ;
+    }
+
+    @Test
+    public void testPrim2() {
+        //test rudimentary
+        Graph<String> g = new Graph<String>();
+        g.insertEdge("Root", "child1", 10);
+        g.insertEdge("Root", "child2", 11);
+        g.insertEdge("child1", "child11", 20);
+        g.insertEdge("child2", "child11", 25);
+
+        AbstractSpanningTreeGenerator<String> stg = new PrimSpanningTreeGenerator<String>(g);
+        Graph<String> st = stg.getSpanningTree();
+        assertTrue(st.getVertices().size() == 4);
+        for (Graph.Vertex<String> v : st.getVertices()) {
+
+            if (v.unwrap().equals("Root")) {
+                assertTrue(st.getAdjList(v).size() == 2);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child1")));
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child2")));
+            }
+            if (v.unwrap().equals("child1")) {
+                assertTrue(st.getAdjList(v).size() == 2);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("Root")));
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child11")));
+            }
+            if (v.unwrap().equals("child2")) {
+                assertTrue(st.getAdjList(v).size() == 1);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("Root")));
+            }
+            if (v.unwrap().equals("child11")) {
+                assertTrue(st.getAdjList(v).size() == 1);
+                assertTrue(st.getAdjList(v).contains(new Graph.Vertex<String>("child1")));
+            }
+
+        }
+        ;
+    }
+
+    @Test
+    public void testPrim3() {
 
         AbstractSpanningTreeGenerator<MockNode> stg = new PrimSpanningTreeGenerator<MockNode>(g);
         Graph<MockNode> tr = stg.getSpanningTree();

@@ -65,6 +65,21 @@ public abstract class Traversal<E> implements ITraversalHandler<E> {
         System.out.println("Visiting vertex = " + v);
     }
 
+
+    public Graph.Vertex<E> parent(Graph.Vertex<E> v) {
+        Node<E> n = v2NodeMap.get(v);
+        return n.parent;
+    }
+
+    @Override
+    public void setParent(Graph.Vertex<E> v, Graph.Vertex<E> p) {
+        Node<E> n = v2NodeMap.get(v);
+        n = n == null ? new Node<E>(v, false) : n;
+        n.parent = p;
+        v2NodeMap.put(v, n);
+    }
+
+
     protected static class Node<E> {
         Graph.Vertex<E> vertex;
         boolean isDiscovered = false;

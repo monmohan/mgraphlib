@@ -56,11 +56,6 @@ public class BFSTraversal<E> extends Traversal<E> {
 
     }
 
-    private void setParent(Graph.Vertex<E> v, Graph.Vertex<E> p) {
-        Node n = v2NodeMap.get(v);
-        n.parent = p;
-    }
-
     LinkedList<Graph.Vertex<E>> findShortestPath(Graph.Vertex<E> v1, Graph.Vertex<E> v2) {
         LinkedList<Graph.Vertex<E>> sp = new LinkedList<Graph.Vertex<E>>();
         Node<E> p = v2NodeMap.get(v2);
