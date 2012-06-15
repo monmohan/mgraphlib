@@ -1,5 +1,8 @@
 package core.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Simple Binary Heap with extract top, bubble up and bubble down operations
  * Objects implementing Comparable can be added
@@ -12,6 +15,7 @@ public class BinaryHeap<E extends Comparable<E>> {
 
     E[] heap = (E[]) new Comparable[capacity];
     int lastIdx = 0;
+    Map<E, Integer> elem2Index = new HashMap<E, Integer>(capacity);
 
     public BinaryHeap() {
     }
@@ -30,6 +34,7 @@ public class BinaryHeap<E extends Comparable<E>> {
     public BinaryHeap<E> insert(E e) {
         ensureCapacity();
         heap[lastIdx] = e;
+        elem2Index.put(e, lastIdx);
         bubbleUp(e, lastIdx);
         lastIdx++;
         return this;
@@ -50,7 +55,9 @@ public class BinaryHeap<E extends Comparable<E>> {
         if (parentIdx >= 0) {
             if (heap[parentIdx].compareTo(e) > 0) {
                 heap[currentIdx] = heap[parentIdx];
+                elem2Index.put(heap[currentIdx], currentIdx);
                 heap[parentIdx] = e;
+                elem2Index.put(e, parentIdx);
             }
             bubbleUp(e, parentIdx);
         }
@@ -65,6 +72,8 @@ public class BinaryHeap<E extends Comparable<E>> {
         if (top != null) {
             //move last to first
             heap[0] = heap[lastIdx - 1];
+            elem2Index.remove(top);
+            elem2Index.put(heap[0], 0);
             lastIdx--;
             heap[lastIdx] = null;
             //now bubbleDown
@@ -86,7 +95,9 @@ public class BinaryHeap<E extends Comparable<E>> {
         if (heap[minIdx].compareTo(heap[parentIdx]) < 0) {
             E temp = heap[parentIdx];
             heap[parentIdx] = heap[minIdx];
+            elem2Index.put(heap[parentIdx], parentIdx);
             heap[minIdx] = temp;
+            elem2Index.put(temp, minIdx);
             bubbleDown(minIdx);
         }
     }
@@ -101,5 +112,15 @@ public class BinaryHeap<E extends Comparable<E>> {
 
         }
         return sb.toString();
+    }
+
+    public int getKeyIndex(E key) {
+        return elem2Index.get(key);
+    }
+
+    public void decreaseKey(E newKey, int index) {
+        elem2Index.remove(heap[index]);
+        heap[index] = newKey;
+        bubbleUp(newKey, index);
     }
 }

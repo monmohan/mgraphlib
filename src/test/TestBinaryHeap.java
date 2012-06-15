@@ -1,29 +1,46 @@
 package test;
 
 import core.util.BinaryHeap;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test Binary heap extraction
  */
 public class TestBinaryHeap {
-    public static void main(String[] args) {
-        Integer[] ar = new Integer[]{8, 7, 6, 5, 4, 3, 2, 1};
+    @Test
+    public void testExtract() {
+        Integer[] ar = new Integer[]{8, 17, 6, 55, 4, 35, 2};
         BinaryHeap<Integer> bi = new BinaryHeap<Integer>();
 
         for (Integer integer : ar) {
             bi.insert(integer);
         }
-        System.out.println("bi = " + bi);
-        testExtract(bi, "one");
-        testExtract(bi, "two");
-        testExtract(bi, "three");
+        Integer oldKey = new Integer(10);
+        bi.insert(oldKey);
+        assertTrue(bi.extractTop().equals(2));
+        bi.decreaseKey(5, bi.getKeyIndex(oldKey));
+        assertTrue(bi.extractTop().equals(4));
+        assertTrue(bi.extractTop().equals(5));
+        assertTrue(bi.extractTop().equals(6));
+        assertTrue(bi.extractTop().equals(8));
+        assertTrue(bi.extractTop().equals(17));
+        assertTrue(bi.extractTop().equals(35));
+        assertTrue(bi.extractTop().equals(55));
+
 
     }
 
-    private static void testExtract(BinaryHeap<Integer> bi, String message) {
-        bi.extractTop();
-        System.out.println("------------" + message + "----------");
-        //TODO better assertion
-        System.out.println("bi = " + bi);
+    @Test
+    public void allNull() {
+        Integer[] ar = new Integer[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
+        BinaryHeap<Integer> bi = new BinaryHeap<Integer>();
+        for (Integer integer : ar) {
+            bi.insert(integer);
+        }
+
     }
+
+
 }
