@@ -87,6 +87,7 @@ public abstract class Traversal<E> implements ITraversalHandler<E> {
         Graph.Vertex<E> parent;
         Color color = Color.NONE;
         MergeSet<Graph.Vertex<E>> connComp = null;
+        Comparable distFromSource = null;
 
         public enum Color {
             RED, BLACK, NONE

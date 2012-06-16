@@ -3,9 +3,7 @@ package core;
 import core.util.BinaryHeap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Min Spanning Tree Generation, Prim's implementation,
@@ -15,8 +13,8 @@ import java.util.Map;
  */
 public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<E> {
     List<Graph.Vertex<E>> inTree = new ArrayList<Graph.Vertex<E>>();
-    Map<Graph.Vertex<E>, BinaryHeap<Graph.Edge<E>>> v2EdgeMinHeap =
-            new HashMap<Graph.Vertex<E>, BinaryHeap<Graph.Edge<E>>>();
+
+    BinaryHeap<VertexWDist<E>> minHeap = new BinaryHeap<VertexWDist<E>>(256);
 
     public PrimSpanningTreeGenerator(Graph<E> eGraph) {
         super(eGraph);
@@ -24,69 +22,120 @@ public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<
 
     @Override
     public void traverse() {
-        inTree.add(g.getVertices().iterator().next());
-        generateTree();
+        for (Graph.Vertex<E> eVertex : g.getVertices()) {
+            Node<E> node = new Node<E>(eVertex, false);
+            v2NodeMap.put(eVertex, node);
+            VertexWDist<E> x = new VertexWDist<E>(eVertex);
+            minHeap.insert(x);
+        }
+        //choose an arbitrary source
+        Graph.Vertex<E> start = g.getVertices().iterator().next();
+        setDistance(start, null);
+        generateTree(start);
+        createMinSpanningSubGraph();
 
 
     }
 
-    protected void generateTree() {
-        Graph.Edge<E> edgeMin = null;
-        if (inTree.size() == g.getVertices().size()) return;
-        for (Graph.Vertex<E> v : inTree) {
-            markDiscovered(v);
-            Graph.Edge<E> edgeMin2 = getFringeMinimum(v, true);
-            edgeMin = edgeMin == null ? edgeMin2
-                    : edgeMin2 == null ? edgeMin
-                    : edgeMin.compareTo(edgeMin2) > 0 ? edgeMin2
-                    : edgeMin;
+    /**
+     * Represent the Min Spanning Tree as a sub graph of the original Graph
+     */
+    private void createMinSpanningSubGraph() {
+        for (Graph.Vertex<E> vertex : inTree) {
+            Graph.Vertex<E> p = parent(vertex);
+            if (p != null) {
+                spanningTree.insertEdge(p.unwrap(), vertex.unwrap(), vertex.edgeWeight);
+            }
+
         }
 
-        if (edgeMin == null) {
+    }
+
+    protected void generateTree(Graph.Vertex<E> start) {
+        if ((start == null) || (inTree.size() == g.getVertices().size())) {
             return;
         }
-        updateTree(edgeMin);
-        generateTree();
+        if (!processed(start)) {
+            inTree.add(start);
+            updateDistances(start);
+            markProcessed(start);
+        }
+        generateTree(getMinimum());
+
+
     }
 
-    private void updateTree(Graph.Edge<E> edgeMin) {
-        getFringeMinimum(edgeMin.from, false);
-        spanningTree.insertEdge(edgeMin.from.unwrap(), edgeMin.to.unwrap(), edgeMin.edgeWeight);
-        markDiscovered(edgeMin.to);
-        inTree.add(edgeMin.to);
+    private Graph.Vertex<E> getMinimum() {
+        VertexWDist<E> vertexWDist = minHeap.extractTop();
+        return vertexWDist != null ? vertexWDist.wrapped : null;
+    }
+
+    private void updateDistances(Graph.Vertex<E> start) {
+        for (Graph.Vertex<E> tV : g.getAdjList(start)) {
+            setDistance(tV, start);
+
+        }
+
+    }
+
+    private void setDistance(Graph.Vertex<E> v, Graph.Vertex<E> parent) {
+        if (processed(v)) {
+            return;
+        }
+        Node<E> n = v2NodeMap.get(v);
+        if (parent == null) {
+            n.distFromSource = 0;
+            n.parent = parent;
+        }
+        if ((n.distFromSource == null) || (n.distFromSource.compareTo(v.edgeWeight) > 0)) {
+            n.distFromSource = v.edgeWeight;
+            n.parent = parent;
+            VertexWDist<E> key = new VertexWDist<E>(v);
+            int index = minHeap.getKeyIndex(key);
+            minHeap.decreaseKey(key, index);
+        }
+
     }
 
 
-    private Graph.Edge<E> getFringeMinimum(Graph.Vertex<E> v, boolean peekOnly) {
-        BinaryHeap<Graph.Edge<E>> adjListHeap = getMinHeap(v);
-        Graph.Edge<E> top = peekOnly ?
-                adjListHeap.peek()
-                : adjListHeap.extractTop();
-        while (top != null && discovered(top.to)) {
-            top = adjListHeap.extractTop(); //throw it away
-            if (peekOnly) {
-                top = adjListHeap.peek();
+    class VertexWDist<E> implements Comparable<VertexWDist<E>> {
+        Graph.Vertex<E> wrapped = null;
+
+        VertexWDist(Graph.Vertex<E> wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public int compareTo(VertexWDist<E> o) {
+            Node nThis = v2NodeMap.get(this.wrapped);
+            Node nOther = v2NodeMap.get(o.wrapped);
+            if (nOther.distFromSource == null) {
+                return -1;
+            } else if (nThis.distFromSource == null) {
+                return 1;
+            } else {
+                return nThis.distFromSource.compareTo(nOther.distFromSource);
+
             }
         }
-        return top;
-    }
 
-    private BinaryHeap<Graph.Edge<E>> getMinHeap(Graph.Vertex<E> v) {
-        BinaryHeap<Graph.Edge<E>> h = v2EdgeMinHeap.get(v);
-        if (h == null) {
-            h = buildHeap(v);
-            v2EdgeMinHeap.put(v, h);
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            VertexWDist that = (VertexWDist) o;
+
+            if (!wrapped.equals(that.wrapped)) return false;
+
+            return true;
         }
-        return h;
-    }
 
-    private BinaryHeap<Graph.Edge<E>> buildHeap(Graph.Vertex<E> v) {
-        BinaryHeap<Graph.Edge<E>> h = new BinaryHeap<Graph.Edge<E>>();
-        for (Graph.Edge<E> edge : g.getIncidentEdges(v)) {
-            h.insert(edge);
+        @Override
+        public int hashCode() {
+            return wrapped.hashCode();
         }
-        return h;
     }
 
-}
+}                                                  
                   
