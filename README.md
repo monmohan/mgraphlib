@@ -12,10 +12,11 @@ What is available
 + Binary Heap
 + Minimum Spanning Tree Kruskal
 + Union-Find
++ Shortest Path on weighted Graphs (Dijkstra)
 
 Coming Soon
 ====================
-+ Shortest Path on weighted Graphs
++ Fibonacci Heap
 + GXL integration
 
 
