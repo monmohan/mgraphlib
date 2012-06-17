@@ -6,10 +6,11 @@ package core;
  * @param <E>
  */
 public abstract class AbstractSpanningTreeGenerator<E> extends Traversal<E> {
-    Graph<E> spanningTree = new Graph<E>();
+    Graph<E> spanningTree = null;
 
     protected AbstractSpanningTreeGenerator(Graph<E> eGraph) {
         super(eGraph);
+        spanningTree = new Graph<E>(eGraph.directed);
     }
 
 

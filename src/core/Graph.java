@@ -18,6 +18,8 @@ public class Graph<E> {
 
     protected Map<Vertex<E>, LinkedList<Vertex<E>>> graphAdjMap = new HashMap<Vertex<E>, LinkedList<Vertex<E>>>();
     boolean directed = false;
+    Set<Vertex<E>> vertices = null;
+    boolean hasChanged = false;
 
     public Graph() {
     }
@@ -36,6 +38,7 @@ public class Graph<E> {
             v1.dup = true;
             insert(v2, v1);
         }
+        hasChanged = true;
         return this;
     }
 
@@ -131,7 +134,25 @@ public class Graph<E> {
 
 
     public Set<Vertex<E>> getVertices() {
-        return graphAdjMap.keySet();
+        if (!hasChanged && vertices != null) {
+            return vertices;
+        }
+        if (directed) {
+            vertices = new HashSet<Vertex<E>>(graphAdjMap.size());
+            for (Vertex<E> v : graphAdjMap.keySet()) {
+                vertices.add(v);
+                for (Vertex<E> lV : getAdjList(v)) {
+                    vertices.add(lV);
+                }
+
+            }
+            hasChanged = false;
+
+        } else {
+            vertices = graphAdjMap.keySet();
+            hasChanged = false;
+        }
+        return vertices;
     }
 
     /**

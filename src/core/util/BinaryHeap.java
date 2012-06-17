@@ -119,7 +119,6 @@ public class BinaryHeap<E extends Comparable<E>> {
     }
 
     public void decreaseKey(E newKey, int index) {
-        elem2Index.remove(heap[index]);
         heap[index] = newKey;
         bubbleUp(newKey, index);
     }
