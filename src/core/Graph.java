@@ -18,7 +18,7 @@ public class Graph<E> {
 
     protected Map<Vertex<E>, LinkedList<Vertex<E>>> graphAdjMap = new HashMap<Vertex<E>, LinkedList<Vertex<E>>>();
     boolean directed = false;
-    Set<Vertex<E>> vertices = null;
+    Set<Vertex<E>> vertices = null; //cached, invalidated when any edge is inserted
     boolean hasChanged = false;
 
     public Graph() {
@@ -110,6 +110,12 @@ public class Graph<E> {
         return (adjList == null) ? new LinkedList<Vertex<E>>() : adjList;
     }
 
+    /**
+     * Get all outgoing edges from this Vertex
+     *
+     * @param v vertex
+     * @return Array of all Outgoing edges from this vertex
+     */
     public Edge<E>[] getIncidentEdges(Vertex<E> v) {
         Edge<E> e = null;
         LinkedList<Graph.Vertex<E>> adjL = getAdjList(v);

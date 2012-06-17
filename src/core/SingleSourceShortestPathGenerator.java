@@ -13,16 +13,28 @@ public class SingleSourceShortestPathGenerator<E> extends PrimSpanningTreeGenera
     private Graph.Vertex<E> startAt;
     private Graph.Vertex<E> endAt;
 
+    /**
+     * Find shortest path to all Vertices
+     *
+     * @param graph
+     * @param startAt
+     */
     public SingleSourceShortestPathGenerator(Graph<E> graph, E startAt) {
         super(graph);
         this.startAt = new Graph.Vertex<E>(startAt);
     }
 
     @Override
-    protected Graph.Vertex<E> getStartVertex() {
-        return startAt;
+    public void traverse() {
+        traverse(startAt);
     }
 
+    @Override
+    public void traverse(Graph.Vertex<E> start) {
+        setDistance(start, null);
+        generateTree(start);
+        buildSpanningTree();
+    }
 
     public LinkedList<Graph.Vertex<E>> getShortestPath(E to) {
         LinkedList<Graph.Vertex<E>> sp = new LinkedList<Graph.Vertex<E>>();

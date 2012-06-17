@@ -18,22 +18,26 @@ public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<
 
     public PrimSpanningTreeGenerator(Graph<E> eGraph) {
         super(eGraph);
-    }
-
-    @Override
-    public void traverse() {
+        //initialize Min Heap
         for (Graph.Vertex<E> eVertex : g.getVertices()) {
             getOrCreateNode(eVertex);
             VertexWDist<E> x = new VertexWDist<E>(eVertex);
             minHeap.insert(x);
         }
-        Graph.Vertex<E> start = getStartVertex();
 
+    }
+
+    @Override
+    public void traverse() {
+        Graph.Vertex<E> start = getStartVertex();
+        traverse(start);
+    }
+
+    @Override
+    public void traverse(Graph.Vertex<E> start) {
         setDistance(start, null);
         generateTree(start);
-        createResult();
-
-
+        buildSpanningTree();
     }
 
     protected Graph.Vertex<E> getStartVertex() {
@@ -53,7 +57,7 @@ public class PrimSpanningTreeGenerator<E> extends AbstractSpanningTreeGenerator<
     /**
      * Represent the Min Spanning Tree as a sub graph of the original Graph
      */
-    protected void createResult() {
+    protected void buildSpanningTree() {
         for (Graph.Vertex<E> vertex : inTree) {
             Graph.Vertex<E> p = parent(vertex);
             if (p != null) {

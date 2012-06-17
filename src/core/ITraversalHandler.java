@@ -6,8 +6,18 @@ package core;
  * @param <E>
  */
 public interface ITraversalHandler<E> {
+    /**
+     * Traverse a Graph -
+     * In case of BFSTraversal, this will ensure that
+     * all connected components and all edges are traversed
+     */
     void traverse();
 
+    /**
+     * Traverse a Graph starting at the given Vertex
+     *
+     * @param startingAt start vertex for traversal
+     */
     void traverse(Graph.Vertex<E> startingAt);
 
     boolean processed(Graph.Vertex<E> v);
