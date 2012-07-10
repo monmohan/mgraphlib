@@ -1,12 +1,12 @@
-package core;
+package org.adm.graph.core;
 
-import core.util.MergeSet;
+import org.adm.graph.core.util.MergeSet;
 
 import java.util.Arrays;
 
 /**
  * Min Spanning Tree Generator, Kruskal's Algorithm.
- * Uses Union Find data structure @see core.util.MergeSet
+ * Uses Union Find data structure @see org.adm.graph.core.util.MergeSet
  * to check for connected components
  *
  * @param <E>

@@ -1,6 +1,6 @@
-package core;
+package org.adm.graph.core;
 
-import core.util.BinaryHeap;
+import org.adm.graph.core.util.BinaryHeap;
 
 import java.util.HashSet;
 import java.util.Set;

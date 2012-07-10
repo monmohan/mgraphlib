@@ -1,6 +1,6 @@
 package test;
 
-import core.util.BinaryHeap;
+import org.adm.graph.core.util.BinaryHeap;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

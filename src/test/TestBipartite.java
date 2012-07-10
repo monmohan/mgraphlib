@@ -1,6 +1,6 @@
 package test;
 
-import core.Graph;
+import org.adm.graph.core.Graph;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

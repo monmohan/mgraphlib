@@ -1,6 +1,6 @@
 package test;
 
-import core.Graph;
+import org.adm.graph.core.Graph;
 
 import java.util.HashMap;
 import java.util.LinkedList;

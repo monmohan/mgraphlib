@@ -1,4 +1,4 @@
-package core;
+package org.adm.graph.core;
 
 import java.util.HashMap;
 import java.util.Iterator;

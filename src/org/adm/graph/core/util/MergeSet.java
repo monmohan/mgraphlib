@@ -1,4 +1,4 @@
-package core.util;
+package org.adm.graph.core.util;
 
 /**
  * Union Find data structure

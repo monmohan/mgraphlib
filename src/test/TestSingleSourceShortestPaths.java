@@ -1,8 +1,8 @@
 package test;
 
-import core.AbstractSpanningTreeGenerator;
-import core.Graph;
-import core.SingleSourceShortestPathGenerator;
+import org.adm.graph.core.AbstractSpanningTreeGenerator;
+import org.adm.graph.core.Graph;
+import org.adm.graph.core.SingleSourceShortestPathGenerator;
 import org.junit.Test;
 
 import java.util.LinkedList;

@@ -1,9 +1,9 @@
 package test;
 
-import core.AbstractSpanningTreeGenerator;
-import core.Graph;
-import core.KruskalSpanningTreeGenerator;
-import core.PrimSpanningTreeGenerator;
+import org.adm.graph.core.AbstractSpanningTreeGenerator;
+import org.adm.graph.core.Graph;
+import org.adm.graph.core.KruskalSpanningTreeGenerator;
+import org.adm.graph.core.PrimSpanningTreeGenerator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

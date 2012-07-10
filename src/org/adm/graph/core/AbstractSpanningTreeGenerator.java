@@ -1,4 +1,4 @@
-package core;
+package org.adm.graph.core;
 
 /**
  * Abstract class for spanning tree gen

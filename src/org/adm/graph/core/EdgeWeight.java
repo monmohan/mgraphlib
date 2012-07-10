@@ -1,4 +1,4 @@
-package core;
+package org.adm.graph.core;
 
 /**
  * Encapsulate a comparable which can also be added

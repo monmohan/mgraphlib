@@ -1,6 +1,6 @@
-package core;
+package org.adm.graph.core;
 
-import core.util.MergeSet;
+import org.adm.graph.core.util.MergeSet;
 
 import java.util.HashMap;
 import java.util.Map;

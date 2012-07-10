@@ -1,7 +1,7 @@
 package test;
 
-import core.DFSTraversal;
-import core.Graph;
+import org.adm.graph.core.DFSTraversal;
+import org.adm.graph.core.Graph;
 import org.junit.Before;
 import org.junit.Test;
 
