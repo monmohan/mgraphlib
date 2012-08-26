@@ -10,6 +10,7 @@ What is available
 + Bipartite Test (Two Coloring Traversal)
 + Minimum Spanning Tree Prim
 + Binary Heap
++ Binomial Heap
 + Minimum Spanning Tree Kruskal
 + Union-Find
 + Shortest Path on weighted Graphs (Dijkstra)
