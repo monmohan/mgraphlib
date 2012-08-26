@@ -88,5 +88,18 @@ public class TestBinomialHeap {
 
     }
 
+    @Test
+    public void testExtractTop() {
+        BinomialHeap<Integer> bh = new BinomialHeap<Integer>();
+        for (int i = 8; i > 0; i--) {
+            bh.insert(i);
+        }
+        System.out.println("BH = " + bh);
+        Integer res = bh.extractTop();
+        System.out.println("res = " + res);
+        System.out.println("BH = " + bh);
+
+    }
+
 
 }

@@ -2,6 +2,8 @@ package org.adm.graph.core.util;
 
 import org.adm.graph.core.IHeap;
 
+import java.util.Stack;
+
 
 /**
  * Represents a Binomial Heap as linked list of Binomial Trees
@@ -146,7 +148,64 @@ public class BinomialHeap<E extends Comparable<E>> implements IHeap<E> {
 
     @Override
     public E extractTop() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        TreeNode<E> current = head; //first node in the list        
+        TreeNode<E> prev = null;
+        TreeNode<E> top = current;
+        TreeNode<E> topprev = prev;
+        if (isEmpty()) {
+            throw new RuntimeException("Heap is empty");
+        }
+        while (current != null) {
+            if (top.e.compareTo(current.e) > 0) {
+                top = current;
+                topprev = prev;
+            }
+            prev = current;
+            current = current.sibling;
+
+        }
+        if (topprev == null) {
+            //change head
+            head = head.sibling;
+        } else {
+            //remove link
+            topprev.sibling = top.sibling;
+
+        }
+        top.sibling = null;
+        E result = top.e;
+        //create new Binomial Heap
+        //take all children of the parent and reverse pointers
+        Stack<TreeNode<E>> rev = new Stack<TreeNode<E>>();
+        current = top.child;
+
+        if (current != null) {
+            while (current != null) {
+                rev.push(current);
+                current = current.sibling;
+            }
+            current = rev.isEmpty() ? null : rev.pop();
+            TreeNode<E> root = current;
+            TreeNode<E> temp = null;
+            while (!rev.isEmpty()) {
+                temp = rev.pop();
+                temp.sibling = null;
+                current.sibling = temp;
+                current = current.sibling;
+            }
+            current.sibling = null;
+
+            BinomialHeap<E> nH = new BinomialHeap<E>();
+            nH.addTree(root);
+            this.union(nH);
+        }
+        return result;
+
+
+    }
+
+    private boolean isEmpty() {
+        return head == null;
     }
 
     @Override
