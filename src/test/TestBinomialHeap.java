@@ -83,7 +83,7 @@ public class TestBinomialHeap {
             bh.insert(i);
         }
 
-        System.out.println("bh = " + bh);
+
         //make result
 
     }

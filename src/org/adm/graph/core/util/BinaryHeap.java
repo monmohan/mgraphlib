@@ -1,5 +1,8 @@
 package org.adm.graph.core.util;
 
+import org.adm.graph.core.IHeap;
+
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,18 +13,24 @@ import java.util.Map;
  *
  * @param <E>
  */
-public class BinaryHeap<E extends Comparable<E>> {
+public class BinaryHeap<E extends Comparable<E>> implements IHeap<E> {
     int capacity = 64;
 
     E[] heap = (E[]) new Comparable[capacity];
     int lastIdx = 0;
     Map<E, Integer> elem2Index = new HashMap<E, Integer>(capacity);
+    Comparator<? super E> comparator = null;
 
     public BinaryHeap() {
     }
 
     public BinaryHeap(int capacity) {
         this.capacity = capacity;
+    }
+
+    public BinaryHeap(int capacity, Comparator<? super E> comparator) {
+        this.capacity = capacity;
+        this.comparator = comparator;
     }
 
     /**
@@ -121,5 +130,19 @@ public class BinaryHeap<E extends Comparable<E>> {
     public void decreaseKey(E newKey, int index) {
         heap[index] = newKey;
         bubbleUp(newKey, index);
+    }
+
+    public void increaseKey(E newKey, int index) {
+        heap[index] = newKey;
+        bubbleDown(index);
+    }
+
+    @Override
+    public void changeKey(E newKey, E oldKey) {
+        if (oldKey.compareTo(newKey) > 0) {
+            decreaseKey(newKey, getKeyIndex(oldKey));
+        } else {
+            increaseKey(newKey, getKeyIndex(oldKey));
+        }
     }
 }
