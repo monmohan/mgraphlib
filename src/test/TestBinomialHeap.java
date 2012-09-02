@@ -90,14 +90,23 @@ public class TestBinomialHeap {
 
     @Test
     public void testExtractTop() {
-        BinomialHeap<Integer> bh = new BinomialHeap<Integer>();
-        for (int i = 8; i > 0; i--) {
-            bh.insert(i);
+        BinomialHeap<Integer> bi = new BinomialHeap<Integer>();
+        Integer[] ar = new Integer[]{8, 17, 6, 55, 4, 35, 2};
+        for (Integer integer : ar) {
+            bi.insert(integer);
         }
-        System.out.println("BH = " + bh);
-        Integer res = bh.extractTop();
-        System.out.println("res = " + res);
-        System.out.println("BH = " + bh);
+        Integer oldKey = new Integer(10);
+        bi.insert(oldKey);
+        assertTrue(bi.extractTop().equals(2));
+        //bi.changeKey(15, oldKey);
+        assertTrue(bi.extractTop().equals(4));
+        assertTrue(bi.extractTop().equals(6));
+        assertTrue(bi.extractTop().equals(8));
+        assertTrue(bi.extractTop().equals(10));
+        assertTrue(bi.extractTop().equals(17));
+        assertTrue(bi.extractTop().equals(35));
+        assertTrue(bi.extractTop().equals(55));
+
 
     }
 

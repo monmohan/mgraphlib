@@ -210,7 +210,7 @@ public class BinomialHeap<E extends Comparable<E>> implements IHeap<E> {
 
     @Override
     public void changeKey(E newKey, E oldKey) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException(" TODO");
     }
 
     @Override

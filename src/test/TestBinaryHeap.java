@@ -41,6 +41,23 @@ public class TestBinaryHeap {
             bi.insert(integer);
         }
 
+
+    }
+
+    @Test
+    public void allEqual() {
+        Integer[] ar = new Integer[]{10, 10, 10, 10};
+        BinaryHeap<Integer> bi = new BinaryHeap<Integer>();
+        for (Integer integer : ar) {
+            bi.insert(integer);
+        }
+        try {
+            bi.changeKey(1, 10);
+        } catch (Exception e) {
+            assertTrue(e instanceof UnsupportedOperationException);
+        }
+
+
     }
 
     @Test

@@ -20,12 +20,18 @@ public class BinaryHeap<E extends Comparable<E>> implements IHeap<E> {
     int lastIdx = 0;
     Map<E, Integer> elem2Index = new HashMap<E, Integer>(capacity);
     Comparator<? super E> comparator = null;
+    boolean chgKeyAllowed = true;
 
     public BinaryHeap() {
     }
 
     public BinaryHeap(int capacity) {
         this.capacity = capacity;
+    }
+
+    public BinaryHeap(int capacity, boolean supportsChangeKey) {
+        this.capacity = capacity;
+        this.chgKeyAllowed = supportsChangeKey;
     }
 
     public BinaryHeap(int capacity, Comparator<? super E> comparator) {
@@ -62,12 +68,16 @@ public class BinaryHeap<E extends Comparable<E>> implements IHeap<E> {
     private void bubbleUp(E e, int currentIdx) {
         int parentIdx = ((currentIdx + 1) / 2) - 1;
         if (parentIdx >= 0) {
+            if (heap[parentIdx].compareTo(e) == 0) {
+                chgKeyAllowed = false;
+            }
             if (heap[parentIdx].compareTo(e) > 0) {
                 heap[currentIdx] = heap[parentIdx];
                 elem2Index.put(heap[currentIdx], currentIdx);
                 heap[parentIdx] = e;
                 elem2Index.put(e, parentIdx);
             }
+
             bubbleUp(e, parentIdx);
         }
     }
@@ -124,21 +134,28 @@ public class BinaryHeap<E extends Comparable<E>> implements IHeap<E> {
     }
 
     public int getKeyIndex(E key) {
-        return elem2Index.get(key);
+        Integer k = elem2Index.get(key);
+        if (k == null) {
+            throw new RuntimeException(" Key not found");
+        }
+        return k;
     }
 
     public void decreaseKey(E newKey, int index) {
+        if (!chgKeyAllowed) throw new UnsupportedOperationException();
         heap[index] = newKey;
         bubbleUp(newKey, index);
     }
 
     public void increaseKey(E newKey, int index) {
+        if (!chgKeyAllowed) throw new UnsupportedOperationException();
         heap[index] = newKey;
         bubbleDown(index);
     }
 
     @Override
     public void changeKey(E newKey, E oldKey) {
+        if (!chgKeyAllowed) throw new UnsupportedOperationException();
         if (oldKey.compareTo(newKey) > 0) {
             decreaseKey(newKey, getKeyIndex(oldKey));
         } else {
