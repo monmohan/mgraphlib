@@ -19,6 +19,7 @@ Coming Soon
 ====================
 + Fibonacci Heap
 + GXL integration
++ DB connectors
 
 
 
